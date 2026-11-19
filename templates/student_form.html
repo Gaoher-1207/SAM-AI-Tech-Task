@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} | StudentHub{% endblock %}
+{% block content %}
+<div class="form-shell"><p class="eyebrow">STUDENT RECORD</p><h1>{{ page_title }}</h1><p class="muted">Enter student and academic details. Required fields are marked in the form.</p>
+<form method="POST" class="student-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label for="name">Full name<input id="name" name="name" value="{{ student.get('name', '') }}" placeholder="e.g. Ayesha Khan" required maxlength="100" autocomplete="name"></label>
+<div class="form-grid"><label for="age">Age<input id="age" type="number" name="age" min="1" max="120" value="{{ student.get('age', '') }}" required></label><label for="email">Email<input id="email" type="email" name="email" value="{{ student.get('email', '') }}" placeholder="name@example.com" required autocomplete="email" maxlength="254"></label></div>
+<label for="phone">Phone number (optional)<input id="phone" name="phone" type="tel" value="{{ student.get('phone', '') }}" autocomplete="tel" placeholder="+1 555 0100"></label>
+<label for="gender">Gender (optional)<select id="gender" name="gender"><option value="">Choose an option</option>{% for option in ['Female', 'Male', 'Non-binary', 'Prefer not to say'] %}<option value="{{ option }}" {% if student.get('gender', '') == option %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+<label for="course">Course<input id="course" name="course" value="{{ student.get('course', '') }}" placeholder="e.g. Computer Science" required maxlength="100"></label>
+<div class="form-grid"><label for="marks">Marks (0–100)<input id="marks" type="number" name="marks" min="0" max="100" step="0.01" value="{{ student.get('marks', '') }}" required></label><label for="registration_date">Registration date<input id="registration_date" type="date" name="registration_date" value="{{ student.get('registration_date', '') }}" max="{{ today() }}" required></label></div>
+<div class="form-actions"><a class="button light" href="{{ url_for('index') }}">Cancel</a><button class="button primary" type="submit">Save student</button></div></form></div>
+{% endblock %}
